@@ -1,17 +1,28 @@
-import { push } from 'connected-react-router';
 import React, { useState } from 'react';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import ajax from '../infra/Ajax';
+import { actions } from '../infra/redux/AppWidgets';
+import { GlobalReduxState } from '../infra/redux/GlobalReducer';
 
-const Sign: React.FC = ({ signing }: any) => {
+const Sign: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const signing = useSelector((state: GlobalReduxState) => state.app.signing);
 
-  const handleClick = () => {
+  if (signing) history.push('/');
+
+  const login = () => {
     ajax.post('http://localhost:8001/login', {
       emailId: email,
       password
-    }).then(() => {
-      push({ pathname: '/', signing });
+    }).then((response) => {
+      dispatch(actions.signInSuccess(response.data.token));
+      history.push('/');
     }).catch((error) => {
       console.log(error);
     });
@@ -19,22 +30,23 @@ const Sign: React.FC = ({ signing }: any) => {
 
   return (
     <>
-      <h1>Login</h1>
-      <p>Email</p>
-      <input
+      <h1>LOGIN</h1>
+      <TextField
         value={email}
         onChange={({ target: { value } }) => setEmail(value)}
         type='text'
         placeholder='email'
       />
-      <p>Password</p>
-      <input
+      <br/>
+      <TextField
         value={password}
         onChange={({ target: { value } }) => setPassword(value)}
         type='password'
         placeholder='password'
       />
-      <button type='button' onClick={handleClick}>Login</button>
+      <br/>
+      <br/>
+      <Button variant='contained' color='primary' onClick={login}>Login</Button>
     </>
   );
 };

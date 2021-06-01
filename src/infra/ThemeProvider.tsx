@@ -7,10 +7,10 @@ const MOBEIUS_THEME = createMuiTheme({
   palette: {
     background: {
       paper: '#101037',
-      default: '#151544'
+      default: '#ffffff'
     },
     text: {
-      primary: '#B7C8F5',
+      primary: '#000000',
       secondary: '#657486'
     },
     primary: {

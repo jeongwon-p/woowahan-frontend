@@ -31,7 +31,7 @@ const reducer = createReducer<AppReduxState, AppAction>(initialState)
   }))
   .handleAction(actions.signOut, (state) => ({
     ...state,
-    signing: true
+    signing: false
   }));
 
 export default reducer;
