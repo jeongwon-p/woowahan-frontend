@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import Link from '@material-ui/core/Link';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Divider from '@material-ui/core/Divider';
+import ListItemText from '@material-ui/core/ListItemText';
 import ajax from '../infra/Ajax';
 
 const BoardList : React.FC = () => {
-  const [news, setNews] = useState();
+  const [news, setNews] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -29,8 +35,22 @@ const BoardList : React.FC = () => {
   }
 
   return (
-    <>
-    </>
+    <List>
+      {news && news.map((item: any) => (
+        <>
+          <ListItem button alignItems='flex-start' component={Link}>
+            <Link component={RouterLink} to={`/post/article/list?boardId=${item.boardId}`}>
+              <ListItemText
+                id={item.boardId}
+                primary={item.name}
+                secondary={item.description}
+            />
+            </Link>
+          </ListItem>
+          <Divider variant='inset' component='li' />
+        </>
+      ))}
+    </List>
   );
 };
 

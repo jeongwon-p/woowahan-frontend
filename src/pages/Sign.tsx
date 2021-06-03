@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { useDispatch, useSelector } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import ajax from '../infra/Ajax';
 import { actions } from '../infra/redux/AppWidgets';
-import { GlobalReduxState } from '../infra/redux/GlobalReducer';
 
-const Sign: React.FC = () => {
+const Sign: React.FC = (props: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
-  const signing = useSelector((state: GlobalReduxState) => state.app.signing);
+  const { signing } = props;
 
   if (signing) history.push('/');
 
@@ -51,4 +50,10 @@ const Sign: React.FC = () => {
   );
 };
 
-export default Sign;
+const mapStateToProps = (state : any) => ({
+  signing: state.app.signing
+});
+
+export default connect(
+  mapStateToProps
+)(Sign);

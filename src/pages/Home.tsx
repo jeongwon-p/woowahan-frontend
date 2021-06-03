@@ -24,9 +24,9 @@ const Home: React.FC = () => {
   return (
     <>
       <Container maxWidth='sm'>
-        사용자이름 <Button variant='contained' color='default' onClick={logout}>Logout</Button>
+        <Button variant='contained' color='default' onClick={logout}>Logout</Button>
         <Typography component='div' variant='h6'>
-          <Grid container spacing={5}>
+          <Grid container spacing={10}>
             <Grid item xs={12} sm={6}>
               <Box p={2}>
                 <div>Board List</div>

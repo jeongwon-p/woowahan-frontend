@@ -2,11 +2,11 @@ import { applyMiddleware, createStore } from 'redux';
 import { persistStore } from 'redux-persist';
 import { routerMiddleware } from 'connected-react-router';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
-import { BrowserHistory, createBrowserHistory } from 'history';
+import { createBrowserHistory } from 'history';
 
 import createRootReducer from './GlobalReducer';
 
-export const history: BrowserHistory = createBrowserHistory();
+export const history = createBrowserHistory();
 
 const store = createStore(
   createRootReducer(history),

@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import { connectRouter } from 'connected-react-router';
-import { BrowserHistory } from 'history';
 import storage from 'redux-persist/lib/storage';
 
 import app, { AppReduxState } from './AppWidgets';
@@ -12,7 +11,7 @@ export interface GlobalReduxState {
 
 // 모든 Reducer 는 개발 후, 아래 Root reducer 에 레퍼런스를 넣어주어야 합니다.
 // 해당 작업을 통해 Reducer 는 Redux 의 관리하에 들어갑니다.
-const createRootReducer = (history: BrowserHistory) => combineReducers({
+const createRootReducer = (history: any) => combineReducers({
   app,
   router: connectRouter(history)
 });
@@ -25,4 +24,4 @@ export const persistConfig = {
   blacklist: []
 };
 
-export default (routeHistory: BrowserHistory) => persistReducer(persistConfig, createRootReducer(routeHistory));
+export default (routeHistory: any) => persistReducer(persistConfig, createRootReducer(routeHistory));
