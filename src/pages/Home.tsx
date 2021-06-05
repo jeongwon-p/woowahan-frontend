@@ -25,6 +25,10 @@ const Home: React.FC = () => {
     <>
       <Container maxWidth='sm'>
         <Button variant='contained' color='default' onClick={logout}>Logout</Button>
+        <Button variant='contained' color='default'
+          onClick={() => history.push('/post/newBoard/_create')}>게시판 만들기</Button>
+        <Button variant='contained' color='default'
+          onClick={() => history.push('/user')}>사용자 관리</Button>
         <Typography component='div' variant='h6'>
           <Grid container spacing={10}>
             <Grid item xs={12} sm={6}>
