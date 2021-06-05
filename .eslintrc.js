@@ -33,6 +33,7 @@ module.exports = {
     "no-unused-expressions": ["error", {"allowTernary": true}],
     "no-use-before-define": 0,
     "dot-notation": ["error", {"allowPattern": "^[A-Z]+(_[A-Z]+)+$"}],
-    "react/display-name": [0]
+    "react/display-name": [0],
+    "react/jsx-props-no-spreading": ["error", {"custom": "ignore"}]
   }
 }
