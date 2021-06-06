@@ -39,7 +39,7 @@ const BoardList : React.FC = () => {
       {news && news.map((item: any) => (
         <>
           <ListItem button alignItems='flex-start' component={Link}>
-            <Link component={RouterLink} to={`/post/article/list?boardId=${item.boardId}`}>
+            <Link component={RouterLink} to={`/post/article/list/${item.boardId}`}>
               <ListItemText
                 id={item.boardId}
                 primary={item.name}

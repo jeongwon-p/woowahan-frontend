@@ -1,19 +1,26 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Button, TextField } from '@material-ui/core/';
 import ajax from '../infra/Ajax';
 
 type MyState ={
   title: string,
-  contents: string
+  contents: string,
+  emailId: string
 }
 
-class CreateBoardComponents extends React.Component<{}, MyState> {
+type MyProps ={
+  emailId: string
+}
+
+class CreateBoardComponents extends React.Component<MyProps, MyState> {
   constructor(props: any) {
     super(props);
 
     this.state = {
       title: '',
-      contents: ''
+      contents: '',
+      emailId: props.emailId
     };
 
     this.changeTitleHandler = this.changeTitleHandler.bind(this);
@@ -42,7 +49,7 @@ class CreateBoardComponents extends React.Component<{}, MyState> {
         description: item.contents,
         hidden: false,
         name: item.title,
-        userId: 'jongwon5185@naver.com' }
+        userId: item.emailId }
     }).then(() => {
       window.history.back();
     }).catch((error) => {
@@ -86,4 +93,8 @@ class CreateBoardComponents extends React.Component<{}, MyState> {
   }
 }
 
-export default CreateBoardComponents;
+const mapStateToProps = (state:any) => ({
+  emailId: state.app.emailId
+});
+
+export default connect(mapStateToProps)(CreateBoardComponents);

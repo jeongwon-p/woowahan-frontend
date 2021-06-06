@@ -1,22 +1,32 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Button, TextField } from '@material-ui/core/';
 import ajax from '../infra/Ajax';
 
 type MyState ={
   title: string,
   contents: string,
-  articleId: string
+  articleId: string,
+  boardId: string,
+  emailId: string
 }
 
-class CreateAricleComponents extends React.Component<{}, MyState> {
+type MyProps ={
+  boardId: string,
+  article: string,
+  emailId: string
+}
+
+class CreateAricleComponents extends React.Component<MyProps, MyState> {
   constructor(props: any) {
     super(props);
     const param = props.match.params;
-
     this.state = {
       articleId: param.articleId,
       title: '',
-      contents: ''
+      contents: '',
+      boardId: param.boardId,
+      emailId: props.emailId
     };
 
     this.changeTitleHandler = this.changeTitleHandler.bind(this);
@@ -41,18 +51,18 @@ class CreateAricleComponents extends React.Component<{}, MyState> {
 
   onPublish = () => {
     const item = this.state;
-    console.log(item.articleId);
+    console.log(item);
     ajax.post('http://localhost:8002/post/article', null, {
       headers: {
         'Content-Type': 'application/json'
       },
       params: {
-        boardId: '1dc2e4d3-c774-42f2-bd72-d11b17d590e4',
+        boardId: item.boardId,
         articleId: (item.articleId === '_create' ? null : item.articleId),
         content: item.contents,
         hidden: false,
         title: item.title,
-        userId: 'jongwon5185@naver.com' }
+        userId: item.emailId }
     }).then(() => {
       window.history.back();
     }).catch((error) => {
@@ -96,4 +106,8 @@ class CreateAricleComponents extends React.Component<{}, MyState> {
   }
 }
 
-export default CreateAricleComponents;
+const mapStateToProps = (state:any) => ({
+  emailId: state.app.emailId
+});
+
+export default connect(mapStateToProps)(CreateAricleComponents);

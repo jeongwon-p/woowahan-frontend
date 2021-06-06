@@ -50,6 +50,7 @@ const UserList : React.FC = () => {
     <>
       <Button variant='contained' color='default' onClick={downloadExcel}>사용자 Excel 다운로드</Button>
       <Button variant='contained' color='default' onClick={() => history.push('/')}>메인화면으로 돌아가기</Button>
+      <Button variant='contained' color='default' onClick={() => history.push('/user/newUser/_create')}>사용자 추가</Button>
       <List>
         {users && users.map((item: any) => (
           <>

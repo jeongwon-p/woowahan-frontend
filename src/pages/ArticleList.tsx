@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { Link as RouterLink, useLocation, useHistory } from 'react-router-dom';
+import { Link as RouterLink, useHistory, useRouteMatch } from 'react-router-dom';
 import { Link, Button, List, ListItem, Divider, ListItemText } from '@material-ui/core';
 import ajax from '../infra/Ajax';
 
+type MyParam = {
+  boardId: string
+}
+
 const ArticleList : React.FC = () => {
-  const [boardId, setBoardId] = useState<any>();
   const [article, setArticle] = useState<any[]>([]);
   const [page, setPage] = useState(0);
-  const location = useLocation();
+  const match = useRouteMatch<MyParam>();
   const history = useHistory();
   const fetchData = async () => {
     try {
-      console.log(page);
-      const response = await ajax.get(`http://localhost:8002/${location.pathname}${location.search}&page=${page}`);
-      console.log(response.data);
+      const response = await
+      ajax.get(`http://localhost:8002/post/article/list?boardId=${match.params.boardId}&page=${page}`);
       setArticle(response.data);
-      if (article) {
-        setBoardId(response.data[0].boardId);
-      }
     } catch (error) {
       console.log(error);
     }
@@ -35,9 +34,7 @@ const ArticleList : React.FC = () => {
 
       setPage(article[0].currentPage - 1);
       fetchData();
-      console.log(boardId);
-      console.log(`?boardId=${boardId}&page=${page}`);
-      history.push(`?boardId=${boardId}&page=${page}`);
+      history.push(`?boardId=${match.params.boardId}&page=${page}`);
     }
   };
 
@@ -49,8 +46,7 @@ const ArticleList : React.FC = () => {
 
       setPage(article[0].currentPage + 1);
       fetchData();
-      console.log(`?boardId=${boardId}&page=${page}`);
-      history.push(`?boardId=${boardId}&page=${page}`);
+      history.push(`?boardId=${match.params.boardId}&page=${page}`);
     }
   };
 
@@ -58,7 +54,7 @@ const ArticleList : React.FC = () => {
     <>
       <div>
         <Button variant='contained' color='default'
-          onClick={() => history.push('/post/newarticle/_create')}>게시글 작성</Button>
+          onClick={() => history.push(`/post/newarticle/_create/${match.params.boardId}`)}>게시글 작성</Button>
         <Button variant='contained' color='default' onClick={() => history.push('/')}>메인화면으로 돌아가기</Button>
       </div>
       <List>

@@ -20,7 +20,7 @@ const Sign: React.FC = (props: any) => {
       emailId: email,
       password
     }).then((response) => {
-      dispatch(actions.signInSuccess(response.data.token));
+      dispatch(actions.signInSuccess(response.data));
       history.push('/');
     }).catch((error) => {
       console.log(error);
