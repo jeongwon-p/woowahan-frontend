@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useHistory, useRouteMatch } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { FormLabel, Button, List, ListItem, Typography, Divider, ListItemText, TextField } from '@material-ui/core';
 import ajax from '../infra/Ajax';
+import { GlobalReduxState } from '../infra/redux/GlobalReducer';
 import './Article.css';
 
+type MyParam = {
+  boardId: string
+}
+
 const Article : React.FC = () => {
+  const emailId = useSelector((state: GlobalReduxState) => state.app.emailId);
   const [currentComment, setCurrentComment] = useState();
   const [updateComment, setUpdateComment] = useState();
   const [article, setArticle] = useState<any>();
   const [comment, setComment] = useState<any>();
+  const match = useRouteMatch<MyParam>();
   const location = useLocation();
   const history = useHistory();
 
@@ -33,7 +41,7 @@ const Article : React.FC = () => {
         },
         params: {
           articleId: article.articleId,
-          userId: 'jongwon5185@naver.com' }
+          userId: emailId }
       }).then(() => {
         window.history.back();
       }).catch((error) => {
@@ -52,7 +60,7 @@ const Article : React.FC = () => {
         },
         params: {
           commentId: targetCommentId,
-          userId: 'jongwon5185@naver.com' }
+          userId: emailId }
       }).then(() => {
         window.history.back();
       }).catch((error) => {
@@ -72,7 +80,7 @@ const Article : React.FC = () => {
         commentId: updateComment || null,
         content: currentComment,
         articleId: article.articleId,
-        userId: 'jongwon5185@naver.com' }
+        userId: emailId }
     }).then(() => {
       window.location.reload();
     }).catch((error) => {
@@ -158,7 +166,7 @@ const Article : React.FC = () => {
         </List>
         <Button variant='contained' color='default' onClick={() => history.goBack()}>목록으로 돌아가기</Button>
         <Button variant='contained' color='default'
-          onClick={() => history.push(`/post/newarticle/${article.articleId}`)}>글수정</Button>
+          onClick={() => history.push(`/post/newarticle/${article.articleId}/${match.params.boardId}`)}>글수정</Button>
         <Button variant='contained' color='default' onClick={hideArticle}>글숨기기</Button>
       </div>
     </>

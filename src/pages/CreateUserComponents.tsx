@@ -41,7 +41,7 @@ class CreateUserComponents extends React.Component<{}, MyState> {
 
   onPublish = () => {
     const item = this.state;
-    ajax.post('http://localhost:8001/user/join', null, {  
+    ajax.post('http://localhost:8001/user/join', null, {
       params: {
         emailId: item.userId,
         hidden: false,
