@@ -51,7 +51,6 @@ const ArticleList : React.FC = () => {
       if (article[0].firstPage) {
         return;
       }
-
       setPage(article[0].currentPage - 1);
       fetchData();
       history.push(`?boardId=${match.params.boardId}&page=${page}`);
@@ -63,8 +62,8 @@ const ArticleList : React.FC = () => {
       if (article[0].lastPage) {
         return;
       }
-
       setPage(article[0].currentPage + 1);
+      console.log(page);
       fetchData();
       history.push(`?boardId=${match.params.boardId}&page=${page}`);
     }
