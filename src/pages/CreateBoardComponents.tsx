@@ -6,7 +6,8 @@ import ajax from '../infra/Ajax';
 type MyState ={
   title: string,
   contents: string,
-  emailId: string
+  emailId: string,
+  boardId: string
 }
 
 type MyProps ={
@@ -16,19 +17,25 @@ type MyProps ={
 class CreateBoardComponents extends React.Component<MyProps, MyState> {
   constructor(props: any) {
     super(props);
+    const param = props.match.params;
 
     this.state = {
       title: '',
       contents: '',
-      emailId: props.emailId
+      emailId: props.emailId,
+      boardId: param.boardId
     };
 
     this.changeTitleHandler = this.changeTitleHandler.bind(this);
     this.changeContentsHandler = this.changeContentsHandler.bind(this);
   }
 
-  getTitle = () => {
-    return <h3 className='text-center'>새로운 게시판을 만듭니다.(ADMIN계정만 가능)</h3>;
+  getTitle() {
+    const item = this.state;
+    if (item.boardId === '_create') {
+      return <h3 className='text-center'>새로운 게시판을 만듭니다.(ADMIN계정만 가능)</h3>;
+    }
+    return <h3 className='text-center'>게시판을 수정합니다.(ADMIN계정만 가능)</h3>;
   }
 
   changeTitleHandler = (event:any) => {
@@ -46,6 +53,7 @@ class CreateBoardComponents extends React.Component<MyProps, MyState> {
         'Content-Type': 'application/json'
       },
       params: {
+        boardId: item.boardId,
         description: item.contents,
         hidden: false,
         name: item.title,

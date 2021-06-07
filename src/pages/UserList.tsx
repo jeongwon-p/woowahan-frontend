@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import Link from '@material-ui/core/Link';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
@@ -54,11 +53,12 @@ const UserList : React.FC = () => {
       <List>
         {users && users.map((item: any) => (
           <>
-            <ListItem button alignItems='flex-start' component={Link}>
+            <ListItem>
               <ListItemText
                 primary={item.emailId}
                 secondary={item.name}
              />
+              <Button onClick={() => history.push(`/user/newUser/${item.emailId}`)}>수정</Button>
             </ListItem>
             <Divider variant='inset' component='li' />
           </>

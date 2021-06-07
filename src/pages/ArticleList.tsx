@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link as RouterLink, useHistory, useRouteMatch } from 'react-router-dom';
 import { Link, Button, List, ListItem, Divider, ListItemText } from '@material-ui/core';
 import ajax from '../infra/Ajax';
+import { GlobalReduxState } from '../infra/redux/GlobalReducer';
 
 type MyParam = {
   boardId: string
 }
 
 const ArticleList : React.FC = () => {
+  const emailId = useSelector((state: GlobalReduxState) => state.app.emailId);
   const [article, setArticle] = useState<any[]>([]);
   const [page, setPage] = useState(0);
   const match = useRouteMatch<MyParam>();
@@ -25,6 +28,23 @@ const ArticleList : React.FC = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const hideBoard = () => {
+    if (window.confirm('정말로 게시판을 숨기기 하시겠습니까?')) {
+      ajax.post('http://localhost:8002/post/board/hide', null, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        params: {
+          boardId: match.params.boardId,
+          userId: emailId }
+      }).then(() => {
+        window.history.back();
+      }).catch((error) => {
+        console.log(error);
+      });
+    }
+  };
 
   const movePrevPage = () => {
     if (article) {
@@ -56,6 +76,9 @@ const ArticleList : React.FC = () => {
         <Button variant='contained' color='default'
           onClick={() => history.push(`/post/newarticle/_create/${match.params.boardId}`)}>게시글 작성</Button>
         <Button variant='contained' color='default' onClick={() => history.push('/')}>메인화면으로 돌아가기</Button>
+        <Button variant='contained' color='default' onClick={hideBoard}>게시판 숨기기</Button>
+        <Button variant='contained' color='default'
+          onClick={() => history.push(`/post/newBoard/${match.params.boardId}`)}>게시판 수정</Button>
       </div>
       <List>
         {article && article.map((item: any) => (
