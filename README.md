@@ -21,5 +21,4 @@
   INSERT INTO user (email_id, name, password, ranking, score, hide_yn, role) VALUES ({개인이메일}, {이름}, '$2a$10$I1z3kYmQqg8iOLcM/JAqKOlZZLWWGXPy6BUiT5dBNdbI.zCGw1sFy', '0', '0', 'N', 'USER');
 
 #TODO
-1. 숨기기 기능 UI
-2. 일별 게시글, 댓글 통계 UI
+1. 일별 게시글, 댓글 통계 UI
